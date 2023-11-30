@@ -7,7 +7,7 @@ services:
       - db_data:/var/lib/mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: exemple
+      MYSQL_ROOT_PASSWORD: ragnarokroot
       MYSQL_DATABASE: ragnarok
       MYSQL_USER: ragnarok
       MYSQL_PASSWORD: ragnarok
@@ -19,7 +19,7 @@ services:
       - 8080:80
     environment:
       PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: exemple
+      MYSQL_ROOT_PASSWORD: ragnarokroot
     depends_on:
       - db
 
@@ -34,8 +34,7 @@ services:
     ports:
       - "6900:6900"
       - "6121:6121"
-      - "5121:5121" 
-      - "8888:8888"
+      - "5121:5121"
       - "5999:5999"
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'

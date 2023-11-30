@@ -1,1 +1,0 @@
-nohup bash athena-start start
