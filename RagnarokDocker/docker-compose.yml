@@ -35,9 +35,32 @@ services:
       - "6900:6900"
       - "6121:6121"
       - "5121:5121"
-      - "5999:5999"
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+
+  fluxcp:
+    build: ./fluxcp
+    links:
+      - db
+      - ragnarok
+    depends_on:
+      - db
+      - ragnarok
+    tty: true
+    stdin_open: true
+    ports:
+      - "8081:80"
+
+  wsproxy:
+    build: ./wsproxy
+    links:
+      - ragnarok
+    depends_on:
+      - ragnarok
+    tty: true
+    stdin_open: true
+    ports:
+      - "5999:5999"
 
 volumes:
   db_data: {}
