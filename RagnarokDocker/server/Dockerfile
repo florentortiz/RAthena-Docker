@@ -10,8 +10,9 @@ RUN apt-get install -y git \
                         g++ \
                         zlib1g-dev \
                         libpcre3-dev \
-                        vim dos2unix \ 
-						npm 
+                        vim dos2unix \
+                        npm 
+
 
 
 RUN apt-get install mysql-server -y
