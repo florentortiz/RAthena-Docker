@@ -11,3 +11,5 @@ COPY boot.sh ./boot.sh
 
 RUN dos2unix ./boot.sh
 RUN chmod +x ./boot.sh
+
+ENTRYPOINT ["./boot.sh"]

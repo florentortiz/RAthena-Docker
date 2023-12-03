@@ -62,5 +62,15 @@ services:
     ports:
       - "5999:5999"
 
+  robrowser:
+    build: ./robrowser
+    links:
+      - wsproxy
+    depends_on:
+      - wsproxy
+    tty: true
+    stdin_open: true
+    ports:
+      - "22000:22000"
 volumes:
   db_data: {}
