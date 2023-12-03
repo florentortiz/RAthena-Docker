@@ -13,6 +13,7 @@ RUN apt-get install -y git \
                         vim dos2unix \ 
 						npm 
 
+
 RUN apt-get install mysql-server -y
 RUN git clone https://github.com/rathena/rathena.git /root/rAthena
 
