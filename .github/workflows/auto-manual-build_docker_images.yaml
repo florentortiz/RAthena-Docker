@@ -35,6 +35,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: TEMP
+        run: ls -l ${GITHUB_WORKSPACE}
+
+      - name: TEMP 2
+        run: ls -l ${GITHUB_WORKSPACE}/RagnarokDocker/fluxcp/Dockerfile
+
+
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
