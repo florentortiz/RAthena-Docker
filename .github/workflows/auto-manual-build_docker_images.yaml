@@ -33,7 +33,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: RagnarokDocker/fluxcp/Dockerfile
+          context: ${GITHUB_WORKSPACE}/RagnarokDocker/fluxcp/Dockerfile
           push: true
           tags: ortizflorent/ragnarok-fluxcp:latest
 
@@ -52,7 +52,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: RagnarokDocker/mysql/Dockerfile
+          context: ${GITHUB_WORKSPACE}/RagnarokDocker/mysql/Dockerfile
           push: true
           tags: ortizflorent/ragnarok-mysql:latest
 
@@ -71,7 +71,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: RagnarokDocker/phpmyadmin/Dockerfile
+          context: ${GITHUB_WORKSPACE}/RagnarokDocker/phpmyadmin/Dockerfile
           push: true
           tags: ortizflorent/ragnarok-phpmyadmin:latest
 
@@ -90,7 +90,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: RagnarokDocker/robrowser/Dockerfile
+          context: ${GITHUB_WORKSPACE}/RagnarokDocker/robrowser/Dockerfile
           push: true
           tags: ortizflorent/ragnarok-robrowser:latest
 
@@ -109,7 +109,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: RagnarokDocker/server/Dockerfile
+          context: ${GITHUB_WORKSPACE}/RagnarokDocker/server/Dockerfile
           push: true
           tags: ortizflorent/ragnarok-server:latest
 
@@ -128,6 +128,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: RagnarokDocker/wsproxy/Dockerfile
+          context: ${GITHUB_WORKSPACE}/RagnarokDocker/wsproxy/Dockerfile
           push: true
           tags: ortizflorent/ragnarok-wsproxy:latest
