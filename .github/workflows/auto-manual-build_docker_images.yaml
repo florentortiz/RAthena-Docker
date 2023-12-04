@@ -33,8 +33,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: ./RagnarokDocker/fluxcp/Dockerfile
+          context: ./RagnarokDocker/fluxcp/
+          file: Dockerfile
           push: true
           tags: ortizflorent/ragnarok-fluxcp:latest
 
