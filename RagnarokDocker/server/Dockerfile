@@ -19,8 +19,8 @@ RUN apt-get install mysql-server -y
 RUN git clone https://github.com/rathena/rathena.git /root/rAthena
 
 WORKDIR /root/rAthena
-COPY inter_athena.conf /root/rAthena/conf/inter_athena.conf
-COPY char_athena.conf /root/rAthena/conf/char_athena.conf
+COPY /config/Athena/ /root/rAthena/conf/
+COPY /config/Server/ /root/rAthena/conf/battle/
 COPY defines_post.hpp /root/rAthena/src/custom/defines_post.hpp
 
 RUN ./configure --enable-epoll=yes --enable-prere=no --enable-vip=no --enable-packetver=20190605
