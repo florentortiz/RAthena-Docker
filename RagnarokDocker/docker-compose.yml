@@ -35,6 +35,7 @@ services:
       - "6900:6900"
       - "6121:6121"
       - "5121:5121"
+      - "8888:8888"
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
 
