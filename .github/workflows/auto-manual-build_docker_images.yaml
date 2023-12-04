@@ -41,7 +41,6 @@ jobs:
       - name: TEMP 2
         run: ls -l ${GITHUB_WORKSPACE}/RagnarokDocker/fluxcp/Dockerfile
 
-
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
@@ -54,11 +53,6 @@ jobs:
     steps:
       - name: Git Checkout
         uses: actions/checkout@v4
-        with:
-          repository: 'florentortiz/mido-wippa'
-          ref: 'main'
-          token: ${{ secrets.MIDOWIPPA_REPOSITORY_ADMIN_TOKEN_GITHUB }}
-          github-server-url: 'https://github.com'
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -69,7 +63,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ${GITHUB_WORKSPACE}/RagnarokDocker/mysql/Dockerfile
+          context: .
+          file: ./RagnarokDocker/mysql/Dockerfile
           push: true
           tags: ortizflorent/ragnarok-mysql:latest
 
