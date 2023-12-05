@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>roBrowser</title>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=yes" />
+        <script type="text/javascript" src="roBrowserLegacy/api.js"></script>
+      <script type="text/javascript">
+             function initialize() {
+                var ROConfig = {
+                    target:        document.getElementById("robrowser"),
+                    type:          ROBrowser.TYPE.FRAME,
+                    application:   ROBrowser.APP.ONLINE,
+                    development:   true,
+                    servers: [{
+                        display:     "Ragnarok server",
+                          desc:        "roBrowser's Ragnarok server",
+                        address:     "127.0.0.1",  
+                        port:        6900,
+                        version:     55,
+                        langtype:    12,
+                        packetver:   20190605,
+                         packetKeys:  false,
+                        socketProxy: "ws://127.0.0.1:5999/",  
+                        adminList:   []
+                    }],
+                    skipServerList:  true,
+                    skipIntro:       false,
+                };
+                var RO = new ROBrowser(ROConfig);
+                RO.start();
+            }
+            window.addEventListener("load", initialize, false);
+        </script> 
+
+    </head>
+    <body bgcolor="black" style="overflow: hidden;">
+        <div id="robrowser" style="height:100vh; width:100vw; position: fixed; left: 0; top:0; overflow: hidden;"></div>
+    </body>
+</html>
