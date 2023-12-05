@@ -202,6 +202,8 @@ jobs:
     steps:
       - name: Git Checkout
         uses: actions/checkout@v4
+        with:
+          ref: 'main'
 
       # Here we can use the "github.ref.name" as we only trigger the workflow from a push TAG event, so the tag will be the ref name
       - name: Docker-compose update
