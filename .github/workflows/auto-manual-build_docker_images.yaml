@@ -222,7 +222,6 @@ jobs:
       - name: Git push for docker-compose
         env:
           TAG_ID: ${{ github.ref_name }}
-          TOKEN_GIT: ${{ secrets.MIDOWIPPA_REPOSITORY_ADMIN_TOKEN_GITHUB }}
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
