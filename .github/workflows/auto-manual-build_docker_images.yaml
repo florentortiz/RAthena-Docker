@@ -1,5 +1,5 @@
 # This workflow will manage the build of our Docker images
-name: Auto & Manual - Mido-Wippa - Build docker images for Ragnarock server
+name: Auto Push - Mido-Wippa - Build docker images for Ragnarock server
 
 # Controls when the action will run. 
 on:
