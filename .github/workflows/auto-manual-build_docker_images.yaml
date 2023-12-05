@@ -12,9 +12,13 @@ on:
   # workflow_dispatch : Workflow runs when manually triggered using the UI or API.
   workflow_dispatch:
 
-  #push:
-  #  branches:
-  #    - 'main'
+  # Workflow that will trigger on push on branch main with git tags with that format "vX.X.X"
+  push:
+    branches:
+      - 'main'
+
+    tags:
+      - "v*.*.*"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -23,6 +27,17 @@ jobs:
     steps:
       - name: Git Checkout
         uses: actions/checkout@v4
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            ortizflorent/ragnarok-fluxcp          
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=semver,pattern={{version}},value=v1.0.0
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -36,7 +51,7 @@ jobs:
           context: ./RagnarokDocker/fluxcp/
           file: ./RagnarokDocker/fluxcp/Dockerfile
           push: true
-          tags: ortizflorent/ragnarok-fluxcp:latest
+          tags: ${{ steps.meta.outputs.tags }}
 
   mysql:
     runs-on: ubuntu-latest
