@@ -213,7 +213,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Docker-compose update
-        run: sed -Ei 's/v[0-9]+\.[0-9]+\.[0-9]+/${{ github.ref.name }}/g' RagnarokDocker/img-docker-compose.yml
+        run: sed -Ei "s/v[0-9]+\.[0-9]+\.[0-9]+/${{ github.ref.name }}/g" RagnarokDocker/img-docker-compose.yml
 
       - name: Docker-compose show
         run: cat RagnarokDocker/img-docker-compose.yml
