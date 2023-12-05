@@ -14,9 +14,6 @@ on:
 
   # Workflow that will trigger on push on branch main with git tags with that format "vX.X.X"
   push:
-    branches:
-      - 'main'
-
     tags:
       - "v*.*.*"
 
