@@ -15,18 +15,27 @@ RUN apt-get install -y git \
 
 RUN useradd -ms /bin/bash hercule
 RUN apt-get install mysql-server -y
-RUN git clone https://github.com/HerculesWS/Hercules.git /hercule/Hercule
-# Créer le répertoire hercule et changer le propriétaire
+RUN git clone https://github.com/HerculesWS/Hercules.git /hercule/hercule
+
 RUN chown -R hercule:hercule /hercule
-# Ajouter un nouvel utilisateur 'hercule'
+
 WORKDIR /hercule/Hercule
 COPY boot.sh ./boot.sh
 COPY sql_connection.conf /hercule/Hercule/conf/global
+COPY /config/Hercule/api-server.conf /hercule/Hercule/conf/api-server/
+COPY /config/Hercule/char-server.conf /hercule/Hercule/conf/char-server/
+COPY /config/Hercule/inter-server.conf /hercule/Hercule/conf/inter-server/
+COPY /config/Hercule/login-server.conf /hercule/Hercule/conf/login-server/
+
+COPY /config/Server/ /hercule/Hercule/conf/map/battle/
+
+
+
 RUN dos2unix ./boot.sh
 RUN chmod +x ./boot.sh
-# Changer l'utilisateur pour 'hercule'
-USER hercule
 
+USER hercule
+WORKDIR /hercule/Hercule
 RUN ./configure
 RUN make clean && make sql
 RUN chmod a+x login-server && chmod a+x char-server && chmod a+x map-server && chmod a+x api-server
