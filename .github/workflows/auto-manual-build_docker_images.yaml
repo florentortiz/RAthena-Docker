@@ -203,7 +203,7 @@ jobs:
 
   docker-compose:
     runs-on: ubuntu-latest
-    needs: [fluxcp, mysql, phpmyadmin, robrowser, server, wsproxy]
+    #needs: [fluxcp, mysql, phpmyadmin, robrowser, server, wsproxy]
     steps:
       - name: Git Checkout
         uses: actions/checkout@v4

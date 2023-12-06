@@ -57,3 +57,21 @@ To https://github.com/florentortiz/mido-wippa.git
 ```
   
 Once we will have multiple tag, we will have each time to check what is the latest version of the tag. And then, make the according version change based on our code modification (little fix, major upgrade, etc..)
+  
+To remove a tag (for testing purpose for example), use this :
+```
+Let's list our tag first
+$ git tag
+v1.0.0
+v1.0.1
+v1.0.2
+
+Then remove one on LOCAL :
+$ git tag -d v1.0.2
+Deleted tag 'v1.0.2' (was c6b628d)
+
+Then, we have to remove it also on REMOTE:
+$ git push --delete origin v1.0.2
+To https://github.com/florentortiz/mido-wippa.git
+ - [deleted]         v1.0.2
+```
