@@ -1,0 +1,77 @@
+version: '3.1'
+
+services: 
+  db:
+    image: ortizflorent/ragnarok-mysql:1.0.2
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ragnarokroot
+      MYSQL_DATABASE: ragnarok
+      MYSQL_USER: ragnarok
+      MYSQL_PASSWORD: ragnarok
+
+  phpmyadmin:
+    image: ortizflorent/ragnarok-phpmyadmin:1.0.2
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: ragnarokroot
+    depends_on:
+      - db
+
+  ragnarok:
+    image: ortizflorent/ragnarok-server:1.0.2
+    links:
+      - db
+    depends_on:
+      - db
+    tty: true
+    stdin_open: true
+    ports:
+      - "6900:6900"
+      - "6121:6121"
+      - "5121:5121"
+      - "8888:8888"
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+
+  fluxcp:
+    image: ortizflorent/ragnarok-fluxcp:1.0.2
+    links:
+      - db
+      - ragnarok
+    depends_on:
+      - db
+      - ragnarok
+    tty: true
+    stdin_open: true
+    ports:
+      - "8081:80"
+
+  wsproxy:
+    image: ortizflorent/ragnarok-wsproxy:1.0.2
+    links:
+      - ragnarok
+    depends_on:
+      - ragnarok
+    tty: true
+    stdin_open: true
+    ports:
+      - "5999:5999"
+
+  robrowser:
+    image: ortizflorent/ragnarok-robrowser:1.0.2
+    links:
+      - wsproxy
+    depends_on:
+      - wsproxy
+    tty: true
+    stdin_open: true
+    ports:
+      - "22000:22000"
+volumes:
+  db_data: {}
