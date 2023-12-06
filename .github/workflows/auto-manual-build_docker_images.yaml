@@ -211,10 +211,11 @@ jobs:
           ref: 'main' # Have to put this as we are triggering with a tag event, so HEAD is detached
 
       # Use of "github.ref_name" to define a specific env var for subsequent actions
-      - name: Tag vars modification
-        run: echo "${{ github.ref_name }}" | sed 's/v//' >> $TAG_DOCKER
-
+      # We have to define the env variable in a "key=value" form, and put it in a specific Github var GITHUB_ENV
       # Here we can use the "github.ref.name" as we only trigger the workflow from a push TAG event, so the tag will be the ref name
+      - name: Tag vars modification
+        run: echo "TAG_DOCKER=$(echo ${{ github.ref_name }} | sed 's/v//') >> "$GITHUB_ENV"
+
       - name: Docker-compose update
         run: sed -Ei "s/v[0-9]+\.[0-9]+\.[0-9]+/${TAG_DOCKER}/g" RagnarokDocker/img-docker-compose.yml*
 
