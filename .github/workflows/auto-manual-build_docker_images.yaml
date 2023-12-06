@@ -217,7 +217,7 @@ jobs:
         run: echo "TAG_DOCKER=$(echo ${{ github.ref_name }} | sed 's/v//')" >> "$GITHUB_ENV"
 
       - name: Docker-compose update
-        run: sed -Ei "s/v[0-9]+\.[0-9]+\.[0-9]+/${TAG_DOCKER}/g" RagnarokDocker/img-docker-compose.yml*
+        run: sed -Ei "s/[0-9]+\.[0-9]+\.[0-9]+/${TAG_DOCKER}/g" RagnarokDocker/img-docker-compose.yml
 
       - name: Docker-compose show
         run: cat RagnarokDocker/img-docker-compose.yml
