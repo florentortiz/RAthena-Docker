@@ -41,8 +41,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./RagnarokDocker/fluxcp/
-          file: ./RagnarokDocker/fluxcp/Dockerfile
+          context: ./fluxcp/
+          file: ./fluxcp/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
 
@@ -72,8 +72,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./RagnarokDocker/mysql/
-          file: ./RagnarokDocker/mysql/Dockerfile
+          context: ./mysql/
+          file: ./mysql/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
 
@@ -103,8 +103,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./RagnarokDocker/phpmyadmin/
-          file: ./RagnarokDocker/phpmyadmin/Dockerfile
+          context: ./phpmyadmin/
+          file: ./phpmyadmin/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
 
@@ -134,8 +134,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./RagnarokDocker/robrowser/
-          file: ./RagnarokDocker/robrowser/Dockerfile
+          context: ./robrowser/
+          file: ./robrowser/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
 
@@ -165,8 +165,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./RagnarokDocker/server/
-          file: ./RagnarokDocker/server/Dockerfile
+          context: ./server/
+          file: ./server/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
 
@@ -196,8 +196,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./RagnarokDocker/wsproxy/ 
-          file: ./RagnarokDocker/wsproxy/Dockerfile
+          context: ./wsproxy/ 
+          file: ./wsproxy/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
 
