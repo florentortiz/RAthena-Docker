@@ -2,7 +2,7 @@ version: '3.1'
 
 services: 
   db:
-    build: ./mysql
+    image: ortizflorent/ragnarok-mysql:1.0.4
     volumes:
       - db_data:/var/lib/mysql
     restart: always
@@ -13,7 +13,7 @@ services:
       MYSQL_PASSWORD: ragnarok
 
   phpmyadmin:
-    build: ./phpmyadmin
+    image: ortizflorent/ragnarok-phpmyadmin:1.0.4
     restart: always
     ports:
       - 8080:80
@@ -24,7 +24,7 @@ services:
       - db
 
   ragnarok:
-    build: ./server
+    image: ortizflorent/ragnarok-server:1.0.4
     links:
       - db
     depends_on:
@@ -40,7 +40,7 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
 
   fluxcp:
-    build: ./fluxcp
+    image: ortizflorent/ragnarok-fluxcp:1.0.4
     links:
       - db
       - ragnarok
@@ -53,7 +53,7 @@ services:
       - "8081:80"
 
   wsproxy:
-    build: ./wsproxy
+    image: ortizflorent/ragnarok-wsproxy:1.0.4
     links:
       - ragnarok
     depends_on:
@@ -64,7 +64,7 @@ services:
       - "5999:5999"
 
   robrowser:
-    build: ./robrowser
+    image: ortizflorent/ragnarok-robrowser:1.0.4
     links:
       - wsproxy
     depends_on:
