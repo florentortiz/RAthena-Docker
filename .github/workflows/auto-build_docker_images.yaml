@@ -23,6 +23,9 @@ on:
     branches:
       - main
 
+  # workflow_dispatch : Workflow runs when manually triggered using the UI or API.
+  workflow_dispatch:
+
 # Will allow the Github_token and the workflow to write in the checkout repository to update the docker-compose file
 # VERY IMPORTANT as otherwise you will have "403 error" and even with a PAT in the url it will not work
 # Can be put on the Job layer for better security, will test it later
