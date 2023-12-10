@@ -14,7 +14,7 @@
 # This workflow will manage the build of our Docker images
 name: Auto tags - RAthena-Docker - Build docker images for Ragnarok server
 
-# Controls when the action will run. 
+# Controls when the action will run. s
 on:
   # Workflow that will trigger on pull request on the "main" branch
   pull_request:
