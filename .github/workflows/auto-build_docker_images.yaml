@@ -14,7 +14,7 @@
 # This workflow will manage the build of our Docker images
 name: Auto tags - RAthena-Docker - Build docker images for Ragnarok server
 
-# Controls when the action will run. s
+# Controls when the action will run.
 on:
   # Workflow that will trigger on pull request on the "main" branch
   pull_request:
@@ -22,15 +22,6 @@ on:
       - closed
     branches:
       - main
-
-  push:
-    types:
-      - closed
-    branches:
-      - release-1.0.9
-
-  # workflow_dispatch : Workflow runs when manually triggered using the UI or API.
-  workflow_dispatch:
 
 # Will allow the Github_token and the workflow to write in the checkout repository to update the docker-compose file
 # VERY IMPORTANT as otherwise you will have "403 error" and even with a PAT in the url it will not work
