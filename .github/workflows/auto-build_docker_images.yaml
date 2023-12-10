@@ -23,6 +23,12 @@ on:
     branches:
       - main
 
+  push:
+    types:
+      - closed
+    branches:
+      - release-1.0.9
+
   # workflow_dispatch : Workflow runs when manually triggered using the UI or API.
   workflow_dispatch:
 
