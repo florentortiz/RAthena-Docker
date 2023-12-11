@@ -110,164 +110,214 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
 
-  # mysql:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Git Checkout
-  #       uses: actions/checkout@v4
+  mysql:
+    runs-on: ubuntu-latest
+    needs: [check-release-semver]
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v4*
 
-  #     - name: Docker meta
-  #       id: meta
-  #       uses: docker/metadata-action@v5
-  #       with:
-  #         # list of Docker images to use as base name for tags
-  #         images: |
-  #           ortizflorent/ragnarok-mysql          
-  #         # generate Docker tags based on the following events/attributes
-  #         tags: |
-  #           type=semver,pattern={{version}}
+      - name: test TEMP
+        env:
+          TAG_SIM: ${{ inputs.tag }}
+        run: echo "TAG_DOCKER=$(echo $TAG_SIM | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
 
-  #     - name: Login to Docker Hub
-  #       uses: docker/login-action@v3
-  #       with:
-  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
-  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
+      #- name: Define Docker tag based on source branch name
+      #  run: echo "TAG_DOCKER=$(echo ${{ github.head_ref }} | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
 
-  #     - name: Build and push
-  #       uses: docker/build-push-action@v5
-  #       with:
-  #         context: ./mysql/
-  #         file: ./mysql/Dockerfile
-  #         push: true
-  #         tags: ${{ steps.meta.outputs.tags }}
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            ortizflorent/ragnarok-mysql          
+          # generate Docker tags based on the following events/attributes
+          # As actions are executed sometime elswhere, we have to call our VARS from env context and not directly with "$TAG_DOCKER"
+          tags: |
+            type=semver,pattern={{version}},value=${{env.TAG_DOCKER}}
 
-  # phpmyadmin:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Git Checkout
-  #       uses: actions/checkout@v4
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-  #     - name: Docker meta
-  #       id: meta
-  #       uses: docker/metadata-action@v5
-  #       with:
-  #         # list of Docker images to use as base name for tags
-  #         images: |
-  #           ortizflorent/ragnarok-phpmyadmin          
-  #         # generate Docker tags based on the following events/attributes
-  #         tags: |
-  #           type=semver,pattern={{version}}
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: ./mysql/
+          file: ./mysql/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
 
-  #     - name: Login to Docker Hub
-  #       uses: docker/login-action@v3
-  #       with:
-  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
-  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
+  phpmyadmin:
+    runs-on: ubuntu-latest
+    needs: [check-release-semver]
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v4
 
-  #     - name: Build and push
-  #       uses: docker/build-push-action@v5
-  #       with:
-  #         context: ./phpmyadmin/
-  #         file: ./phpmyadmin/Dockerfile
-  #         push: true
-  #         tags: ${{ steps.meta.outputs.tags }}
+      - name: test TEMP
+        env:
+          TAG_SIM: ${{ inputs.tag }}
+        run: echo "TAG_DOCKER=$(echo $TAG_SIM | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
 
-  # robrowser:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Git Checkout
-  #       uses: actions/checkout@v4
+      #- name: Define Docker tag based on source branch name
+      #  run: echo "TAG_DOCKER=$(echo ${{ github.head_ref }} | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
 
-  #     - name: Docker meta
-  #       id: meta
-  #       uses: docker/metadata-action@v5
-  #       with:
-  #         # list of Docker images to use as base name for tags
-  #         images: |
-  #           ortizflorent/ragnarok-robrowser          
-  #         # generate Docker tags based on the following events/attributes
-  #         tags: |
-  #           type=semver,pattern={{version}}
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            ortizflorent/ragnarok-phpmyadmin          
+          # generate Docker tags based on the following events/attributes
+          # As actions are executed sometime elswhere, we have to call our VARS from env context and not directly with "$TAG_DOCKER"
+          tags: |
+            type=semver,pattern={{version}},value=${{env.TAG_DOCKER}}
 
-  #     - name: Login to Docker Hub
-  #       uses: docker/login-action@v3
-  #       with:
-  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
-  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-  #     - name: Build and push
-  #       uses: docker/build-push-action@v5
-  #       with:
-  #         context: ./robrowser/
-  #         file: ./robrowser/Dockerfile
-  #         push: true
-  #         tags: ${{ steps.meta.outputs.tags }}
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: ./phpmyadmin/
+          file: ./phpmyadmin/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
 
-  # server:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Git Checkout
-  #       uses: actions/checkout@v4
+  robrowser:
+    runs-on: ubuntu-latest
+    needs: [check-release-semver]
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v4
 
-  #     - name: Docker meta
-  #       id: meta
-  #       uses: docker/metadata-action@v5
-  #       with:
-  #         # list of Docker images to use as base name for tags
-  #         images: |
-  #           ortizflorent/ragnarok-server        
-  #         # generate Docker tags based on the following events/attributes
-  #         tags: |
-  #           type=semver,pattern={{version}}
+      - name: test TEMP
+        env:
+          TAG_SIM: ${{ inputs.tag }}
+        run: echo "TAG_DOCKER=$(echo $TAG_SIM | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
 
-  #     - name: Login to Docker Hub
-  #       uses: docker/login-action@v3
-  #       with:
-  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
-  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
+      #- name: Define Docker tag based on source branch name
+      #  run: echo "TAG_DOCKER=$(echo ${{ github.head_ref }} | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
 
-  #     - name: Build and push
-  #       uses: docker/build-push-action@v5
-  #       with:
-  #         context: ./server/
-  #         file: ./server/Dockerfile
-  #         push: true
-  #         tags: ${{ steps.meta.outputs.tags }}
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            ortizflorent/ragnarok-robrowser          
+          # generate Docker tags based on the following events/attributes
+          # As actions are executed sometime elswhere, we have to call our VARS from env context and not directly with "$TAG_DOCKER"
+          tags: |
+            type=semver,pattern={{version}},value=${{env.TAG_DOCKER}}
 
-  # wsproxy:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Git Checkout
-  #       uses: actions/checkout@v4
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-  #     - name: Docker meta
-  #       id: meta
-  #       uses: docker/metadata-action@v5
-  #       with:
-  #         # list of Docker images to use as base name for tags
-  #         images: |
-  #           ortizflorent/ragnarok-wsproxy          
-  #         # generate Docker tags based on the following events/attributes
-  #         tags: |
-  #           type=semver,pattern={{version}}
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: ./robrowser/
+          file: ./robrowser/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
 
-  #     - name: Login to Docker Hub
-  #       uses: docker/login-action@v3
-  #       with:
-  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
-  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
+  server:
+    runs-on: ubuntu-latest
+    needs: [check-release-semver]
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v4
 
-  #     - name: Build and push
-  #       uses: docker/build-push-action@v5
-  #       with:
-  #         context: ./wsproxy/ 
-  #         file: ./wsproxy/Dockerfile
-  #         push: true
-  #         tags: ${{ steps.meta.outputs.tags }}
+      - name: test TEMP
+        env:
+          TAG_SIM: ${{ inputs.tag }}
+        run: echo "TAG_DOCKER=$(echo $TAG_SIM | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
+
+      #- name: Define Docker tag based on source branch name
+      #  run: echo "TAG_DOCKER=$(echo ${{ github.head_ref }} | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            ortizflorent/ragnarok-server        
+          # generate Docker tags based on the following events/attributes
+          # As actions are executed sometime elswhere, we have to call our VARS from env context and not directly with "$TAG_DOCKER"
+          tags: |
+            type=semver,pattern={{version}},value=${{env.TAG_DOCKER}}
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: ./server/
+          file: ./server/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+
+  wsproxy:
+    runs-on: ubuntu-latest
+    needs: [check-release-semver]
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v4
+
+      - name: test TEMP
+        env:
+          TAG_SIM: ${{ inputs.tag }}
+        run: echo "TAG_DOCKER=$(echo $TAG_SIM | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
+
+      #- name: Define Docker tag based on source branch name
+      #  run: echo "TAG_DOCKER=$(echo ${{ github.head_ref }} | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            ortizflorent/ragnarok-wsproxy          
+          # generate Docker tags based on the following events/attributes
+          # As actions are executed sometime elswhere, we have to call our VARS from env context and not directly with "$TAG_DOCKER"
+          tags: |
+            type=semver,pattern={{version}},value=${{env.TAG_DOCKER}}
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: ./wsproxy/ 
+          file: ./wsproxy/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
 
   docker-compose:
     runs-on: ubuntu-latest
-    #needs: [fluxcp, mysql, phpmyadmin, robrowser, server, wsproxy]
+    needs: [fluxcp, mysql, phpmyadmin, robrowser, server, wsproxy]
     steps:
       - name: Git Checkout
         uses: actions/checkout@v4
