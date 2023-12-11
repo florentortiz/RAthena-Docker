@@ -301,6 +301,9 @@ jobs:
     steps:
       - name: Git Checkout
         uses: actions/checkout@v4
+        with:
+          # Have to specify "ref main" otherwise we didn't have the last commit push in the docker-compose job
+          ref: 'main'
 
       - name: Define Docker tag based on source branch name
         run: echo "TAG_DOCKER=$(echo ${{ github.head_ref }} | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
