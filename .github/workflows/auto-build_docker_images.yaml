@@ -316,7 +316,7 @@ jobs:
         uses: mathieudutour/github-tag-action@v6.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: $TAG_DOCKER
+          custom_tag: "$TAG_DOCKER"
 
       - name: Create Release for RAthena-Docker
         uses: ncipollo/release-action@v1.13.0
