@@ -276,8 +276,6 @@ jobs:
     steps:
       - name: Git Checkout
         uses: actions/checkout@v4
-        with:
-          ref: 'main' # We had to put this as we are triggering with a tag event, so HEAD was detached. To be verified with PR event
 
       - name: Define Docker tag based on source branch name
         run: echo "TAG_DOCKER=$(echo ${{ github.head_ref }} | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
@@ -306,22 +304,34 @@ jobs:
           # Have to specify the "ref main" otherwise we didn't have the last commit push in the docker-compose job
           ref: 'main'
 
-      - name: Define Docker tag based on source branch name
-        run: echo "TAG_DOCKER=$(echo ${{ github.head_ref }} | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
+      - name: Git commit sha
+        run: |
+          COMMIT_SHA_FIND=$(git rev-parse HEAD)
+          echo $COMMIT_SHA_FIND
+          echo "COMMIT_SHA_TAG=$(echo $COMMIT_SHA_FIND)" >> "$GITHUB_ENV"
 
-      # By default it will use the "X.X.X" of "release/X.X.X"
-      - name: Bump version and push tag
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v6.1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          # As actions are executed sometime elswhere, we have to call our VARS from env context and not directly with "$TAG_DOCKER"
-          custom_tag: ${{env.TAG_DOCKER}}
+      - name: Define Docker tag based on source branch name
+        run: echo "TAG_RELEASE=$(echo ${{ github.head_ref }} | cut -d'/' -f2)" >> "$GITHUB_ENV"
+
+      # # By default it will use the "X.X.X" of "release/X.X.X"
+      # - name: Bump version and push tag
+      #   id: tag_version
+      #   uses: mathieudutour/github-tag-action@v6.1
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     # As actions are executed sometime elswhere, we have to call our VARS from env context and not directly with "$TAG_DOCKER"
+      #     custom_tag: ${{env.TAG_DOCKER}}
+
+      - name: Git tag creation
+        run: git tag -a ${TAG_RELEASE} -m "add tag ${TAG_RELEASE}" ${COMMIT_SHA_TAG}
+
+      - name: Git tag push
+        run: git push origin ${TAG_RELEASE}
 
       - name: Create Release for RAthena-Docker
         uses: ncipollo/release-action@v1.13.0
         with:
-          tag: ${{ steps.tag_version.outputs.new_tag }}
+          tag: ${{env.TAG_RELEASE}}
           generateReleaseNotes: true
           makeLatest: true
-          name: "Ragnarok Docker ${{ steps.tag_version.outputs.new_tag }}"
+          name: "Ragnarok Docker ${{env.TAG_RELEASE}}"
