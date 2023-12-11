@@ -156,14 +156,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # - name: Build and push
-      #   uses: docker/build-push-action@v5
-      #   with:
-      #     context: ./phpmyadmin/
-      #     file: ./phpmyadmin/Dockerfile
-      #     push: true
-      #     tags: ${{ steps.meta.outputs.tags }}
-      - name: Build and push
+      - name: Build localy to scan image
         uses: docker/build-push-action@v5
         with:
           context: ./phpmyadmin/
@@ -174,8 +167,22 @@ jobs:
 
       - name: Scan image
         uses: anchore/scan-action@v3
+        id: scan
         with:
           image: "${{ steps.meta.outputs.tags }}"
+          output-format: "sarif"
+          fail-build: false
+
+      - name: Inspect action SARIF report
+        run: cat ${{ steps.scan.outputs.sarif }}
+
+      - name: Build and push to remtoe registry
+        uses: docker/build-push-action@v5
+        with:
+          context: ./phpmyadmin/
+          file: ./phpmyadmin/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
 
   # robrowser:
   #   runs-on: ubuntu-latest
@@ -193,7 +200,7 @@ jobs:
   #       with:
   #         # list of Docker images to use as base name for tags
   #         images: |
-  #           ortizflorent/ragnarok-robrowser          
+  #           ortizflorent/ragnarok-robrowser       
   #         # generate Docker tags based on the following events/attributes
   #         # As actions are executed sometime elswhere, we have to call our VARS from env context and not directly with "$TAG_DOCKER"
   #         tags: |
