@@ -15,7 +15,7 @@ version: '3.1'
 
 services: 
   db:
-    image: ortizflorent/ragnarok-mysql:1.0.9
+    image: ortizflorent/ragnarok-mysql:1.0.10
     volumes:
       - db_data:/var/lib/mysql
     restart: always
@@ -37,7 +37,7 @@ services:
       - db
 
   ragnarok:
-    image: ortizflorent/ragnarok-server:1.0.9
+    image: ortizflorent/ragnarok-server:1.0.10
     links:
       - db
     depends_on:
