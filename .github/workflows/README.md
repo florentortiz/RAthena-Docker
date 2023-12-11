@@ -7,6 +7,8 @@ This file will explain the workflow to generate versionned ragnarok images for o
   
 Acutally we are using the "Git tag" functionnality in order to be able to generate our images in a semver way.
 
+TO BE MODIFIED
+
 ## **Automation**
 ---
 ### **Github actions**
