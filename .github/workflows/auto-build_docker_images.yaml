@@ -301,6 +301,8 @@ jobs:
     steps:
       - name: Git Checkout
         uses: actions/checkout@v4
+        with:
+          ref: 'main'
 
       - name: Define Docker tag based on source branch name
         run: echo "TAG_DOCKER=$(echo ${{ github.head_ref }} | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
