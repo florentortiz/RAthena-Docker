@@ -11,7 +11,6 @@
 #
 ############################################################################### -->
 
-
 <?php
 // This is the application configuration file. All values have been set to
 // the default, and should be changed as needed.
