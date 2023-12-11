@@ -23,17 +23,6 @@ on:
     branches:
       - main
 
-  # workflow_dispatch : Workflow runs when manually triggered using the UI or API.
-  workflow_dispatch:
-    # Inputs vars the workflow will use
-    inputs:
-      tag:
-        # What will be show in the UI
-        description: 'test tag'
-        default: 'release/v1.0.10'
-        required: true
-        type: string
-
 # Will allow the Github_token and the workflow to write in the checkout repository to update the docker-compose file
 # VERY IMPORTANT as otherwise you will have "403 error" and even with a PAT in the url it will not work
 # Can be put on the Job layer for better security, will test it later
@@ -45,16 +34,11 @@ jobs:
   check-release-semver:
     runs-on: ubuntu-latest
     steps:
-      - name: test TEMP
-        env:
-          TAG_SIM: ${{ inputs.tag }}
-        run: echo "TAG_DOCKER=$(echo $TAG_SIM | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
-
       # Use of "github.ehead_ref" to define a specific env var for subsequent actions
       # We have to define the env variable in a "key=value" form, and put it in a specific Github var GITHUB_ENV
       # Here we can use the "github.head_ref" as we only trigger the workflow from a PR event
-      #- name: Define Docker tag based on source branch name
-      #  run: echo "TAG_DOCKER=$(echo ${{ github.head_ref }} | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
+      - name: Define Docker tag based on source branch name
+        run: echo "TAG_DOCKER=$(echo ${{ github.head_ref }} | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
 
       - name: Check Semantic Versioning Format
         run: |
@@ -76,13 +60,8 @@ jobs:
       - name: Git Checkout
         uses: actions/checkout@v4
 
-      - name: test TEMP
-        env:
-          TAG_SIM: ${{ inputs.tag }}
-        run: echo "TAG_DOCKER=$(echo $TAG_SIM | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
-
-      #- name: Define Docker tag based on source branch name
-      #  run: echo "TAG_DOCKER=$(echo ${{ github.head_ref }} | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
+      - name: Define Docker tag based on source branch name
+        run: echo "TAG_DOCKER=$(echo ${{ github.head_ref }} | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
 
       - name: Docker meta
         id: meta
@@ -117,13 +96,8 @@ jobs:
       - name: Git Checkout
         uses: actions/checkout@v4
 
-      - name: test TEMP
-        env:
-          TAG_SIM: ${{ inputs.tag }}
-        run: echo "TAG_DOCKER=$(echo $TAG_SIM | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
-
-      #- name: Define Docker tag based on source branch name
-      #  run: echo "TAG_DOCKER=$(echo ${{ github.head_ref }} | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
+      - name: Define Docker tag based on source branch name
+        run: echo "TAG_DOCKER=$(echo ${{ github.head_ref }} | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
 
       - name: Docker meta
         id: meta
@@ -158,13 +132,8 @@ jobs:
       - name: Git Checkout
         uses: actions/checkout@v4
 
-      - name: test TEMP
-        env:
-          TAG_SIM: ${{ inputs.tag }}
-        run: echo "TAG_DOCKER=$(echo $TAG_SIM | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
-
-      #- name: Define Docker tag based on source branch name
-      #  run: echo "TAG_DOCKER=$(echo ${{ github.head_ref }} | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
+      - name: Define Docker tag based on source branch name
+        run: echo "TAG_DOCKER=$(echo ${{ github.head_ref }} | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
 
       - name: Docker meta
         id: meta
@@ -199,13 +168,8 @@ jobs:
       - name: Git Checkout
         uses: actions/checkout@v4
 
-      - name: test TEMP
-        env:
-          TAG_SIM: ${{ inputs.tag }}
-        run: echo "TAG_DOCKER=$(echo $TAG_SIM | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
-
-      #- name: Define Docker tag based on source branch name
-      #  run: echo "TAG_DOCKER=$(echo ${{ github.head_ref }} | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
+      - name: Define Docker tag based on source branch name
+        run: echo "TAG_DOCKER=$(echo ${{ github.head_ref }} | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
 
       - name: Docker meta
         id: meta
@@ -240,13 +204,8 @@ jobs:
       - name: Git Checkout
         uses: actions/checkout@v4
 
-      - name: test TEMP
-        env:
-          TAG_SIM: ${{ inputs.tag }}
-        run: echo "TAG_DOCKER=$(echo $TAG_SIM | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
-
-      #- name: Define Docker tag based on source branch name
-      #  run: echo "TAG_DOCKER=$(echo ${{ github.head_ref }} | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
+      - name: Define Docker tag based on source branch name
+        run: echo "TAG_DOCKER=$(echo ${{ github.head_ref }} | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
 
       - name: Docker meta
         id: meta
@@ -281,13 +240,8 @@ jobs:
       - name: Git Checkout
         uses: actions/checkout@v4
 
-      - name: test TEMP
-        env:
-          TAG_SIM: ${{ inputs.tag }}
-        run: echo "TAG_DOCKER=$(echo $TAG_SIM | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
-
-      #- name: Define Docker tag based on source branch name
-      #  run: echo "TAG_DOCKER=$(echo ${{ github.head_ref }} | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
+      - name: Define Docker tag based on source branch name
+        run: echo "TAG_DOCKER=$(echo ${{ github.head_ref }} | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
 
       - name: Docker meta
         id: meta
@@ -324,13 +278,8 @@ jobs:
         with:
           ref: 'main' # We had to put this as we are triggering with a tag event, so HEAD was detached. To be verified with PR event
 
-      - name: test TEMP
-        env:
-          TAG_SIM: ${{ inputs.tag }}
-        run: echo "TAG_DOCKER=$(echo $TAG_SIM | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
-
-      #- name: Define Docker tag based on source branch name
-      #  run: echo "TAG_DOCKER=$(echo ${{ github.head_ref }} | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
+      - name: Define Docker tag based on source branch name
+        run: echo "TAG_DOCKER=$(echo ${{ github.head_ref }} | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
 
       - name: Docker-compose update
         run: sed -Ei "s/[0-9]+\.[0-9]+\.[0-9]+/${TAG_DOCKER}/g" docker-compose.yml
@@ -338,13 +287,13 @@ jobs:
       - name: Docker-compose show
         run: cat docker-compose.yml
 
-  #     - name: Git push for docker-compose
-  #       run: |
-  #         git config user.name github-actions
-  #         git config user.email github-actions@github.com
-  #         git add docker-compose.yml
-  #         git commit -m "ci: update image version ${TAG_DOCKER} - generated by CI"
-  #         git push
+      - name: Git push for docker-compose
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add docker-compose.yml
+          git commit -m "ci: update image version ${TAG_DOCKER} - generated by CI"
+          git push
 
   create-tag-release:
     runs-on: ubuntu-latest
@@ -353,13 +302,8 @@ jobs:
       - name: Git Checkout
         uses: actions/checkout@v4
 
-      - name: test TEMP
-        env:
-          TAG_SIM: ${{ inputs.tag }}
-        run: echo "TAG_DOCKER=$(echo $TAG_SIM | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
-
-      #- name: Define Docker tag based on source branch name
-      #  run: echo "TAG_DOCKER=$(echo ${{ github.head_ref }} | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
+      - name: Define Docker tag based on source branch name
+        run: echo "TAG_DOCKER=$(echo ${{ github.head_ref }} | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
 
       # By default it will use the "X.X.X" of "release/X.X.X"
       - name: Bump version and push tag
