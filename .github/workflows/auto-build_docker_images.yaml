@@ -319,7 +319,7 @@ jobs:
         with:
           tag: "${{env.TAG_RELEASE}}"
           message: "Ragnarok Docker ${{env.TAG_RELEASE}}"
-          commit_hsha: ${{env.COMMIT_SHA_TAG}}
+          commit_sha: ${{env.COMMIT_SHA_TAG}}
 
 
       # # # By default it will use the "X.X.X" of "release/X.X.X"
