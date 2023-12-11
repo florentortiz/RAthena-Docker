@@ -313,20 +313,29 @@ jobs:
       - name: Define Docker tag based on source branch name
         run: echo "TAG_RELEASE=$(echo ${{ github.head_ref }} | cut -d'/' -f2)" >> "$GITHUB_ENV"
 
-      # # By default it will use the "X.X.X" of "release/X.X.X"
-      # - name: Bump version and push tag
-      #   id: tag_version
-      #   uses: mathieudutour/github-tag-action@v6.1
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     # As actions are executed sometime elswhere, we have to call our VARS from env context and not directly with "$TAG_DOCKER"
-      #     custom_tag: ${{env.TAG_DOCKER}}
-
       - name: Git tag creation
-        run: git tag -a ${TAG_RELEASE} -m "add tag ${TAG_RELEASE}" ${COMMIT_SHA_TAG}
+        uses: rickstaa/action-create-tag@v1
+        id: "tag_create"
+        with:
+          tag: "${{env.TAG_RELEASE}}"
+          message: "Ragnarok Docker ${{env.TAG_RELEASE}}"
+          commit_hsha: ${{env.COMMIT_SHA_TAG}}
 
-      - name: Git tag push
-        run: git push origin ${TAG_RELEASE}
+
+      # # # By default it will use the "X.X.X" of "release/X.X.X"
+      # # - name: Bump version and push tag
+      # #   id: tag_version
+      # #   uses: mathieudutour/github-tag-action@v6.1
+      # #   with:
+      # #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      # #     # As actions are executed sometime elswhere, we have to call our VARS from env context and not directly with "$TAG_DOCKER"
+      # #     custom_tag: ${{env.TAG_DOCKER}}
+
+      # - name: Git tag creation
+      #   run: git tag -a ${TAG_RELEASE} -m "add tag ${TAG_RELEASE}" ${COMMIT_SHA_TAG}
+
+      # - name: Git tag push
+      #   run: git push origin ${TAG_RELEASE}
 
       - name: Create Release for RAthena-Docker
         uses: ncipollo/release-action@v1.13.0
