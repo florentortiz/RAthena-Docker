@@ -42,19 +42,26 @@ permissions:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  test:
+  check-release-semver:
     runs-on: ubuntu-latest
     steps:
-      - name: show
-        run: echo "${{ github.ref_name }} -- ${{ github.head_ref }} -- ${{ github.ref }} -- ${{ github.base_ref }}"
-
-      - name: test
+      - name: test TEMP
         env:
           TAG_SIM: ${{ inputs.tag }}
         run: echo "TAG_DOCKER=$(echo $TAG_SIM | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
 
-      - name: tessst
-        run: echo $TAG_DOCKER
+      - name: Check Semantic Versioning Format
+        run: |
+          # Regular expression to match Semantic Versioning format
+          semver_regex='^[0-9]+\.[0-9]+\.[0-9]+$'
+
+          # Check if the variable matches the SemVer regex define before
+          if [[ $TAG_DOCKER =~ $semver_regex ]]; then
+              echo "The variable $TAG_DOCKER is in Semantic Versioning format."
+          else
+              echo "The variable $TAG_DOCKER is NOT in Semantic Versioning format."
+              exit 1
+          fi
 
   # fluxcp:
   #   runs-on: ubuntu-latest
