@@ -50,7 +50,7 @@ jobs:
 
       - name: test
         env:
-          TAG_SIM: ${{ inputs.lvm-ansible-inventory }}
+          TAG_SIM: ${{ inputs.tag }}
         run: echo "TAG_DOCKER=$(echo $TAG_SIM | cut -d'/' -f2 | sed 's/v//')" >> "$GITHUB_ENV"
 
       - name: tessst
