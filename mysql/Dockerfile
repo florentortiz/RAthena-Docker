@@ -11,9 +11,9 @@
 #
 ###############################################################################
 
-FROM mysql:8.2
+FROM mysql:8
 
-RUN yum -y update && yum install -y git
+RUN microdnf install -y git
 
 RUN git clone https://github.com/rathena/rathena.git /root/rAthena
 
